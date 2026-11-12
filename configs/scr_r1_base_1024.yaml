@@ -1,0 +1,15 @@
+# Recipe r1 = r0 plus the three wave-1 promotions (fold 0, gate +0.005 vs scr_r0_base_1024):
+# zoom 0.8-1.25 (+0.0069), cutout (+0.0083), blur off (+0.0074). Its baseline is r0, so the
+# registry row is the stacking check: do the three gains add up? Later r1 screens compare
+# against this run.
+base: scr_r0_base_1024.yaml
+name: scr_r1_base_1024
+recipe: r1
+change: "recipe r1: r0 + zoom 0.8-1.25 + cutout 4x32-96 p=0.5 + no blur"
+baseline: scr_r0_base_1024
+augment:
+  scale: [0.8, 1.25]
+  cutout_p: 0.5
+  cutout_n: 4
+  cutout_size: [32, 96]
+  blur_p: 0.0

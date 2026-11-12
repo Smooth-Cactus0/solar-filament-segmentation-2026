@@ -1,0 +1,14 @@
+# CoAtNet-1 (rmlp): MBConv at stride 4 and 8, dense global attention at 16 and 32. The MLP
+# relative-position embedding transfers across input sizes, so the 1024 stage can warm-start
+# the 1536 fine-tune. Needs a 48 GB GPU: the attention bias is heads x N x N per block (N = 4096 at
+# 1024), several GB beyond the 3080.
+base: scr_r1_base_1024.yaml
+name: scr_r1_coatnet1_1024
+change: "arch: UNet on CoAtNet-rmlp-1 (in12k->in1k), lr 1e-4"
+baseline: scr_r1_base_1024
+encoder: tu-coatnet_rmlp_1_rw2_224.sw_in12k_ft_in1k
+lr: 1.0e-4
+arch:
+  decoder: Unet
+  pass_img_size: true
+warmup_epochs: 1

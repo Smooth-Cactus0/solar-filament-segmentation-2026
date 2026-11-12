@@ -1,0 +1,7 @@
+# Stage 2 of the r2 curriculum (the r1 1536 fine-tune), warm-started from
+# checkpoints/scr_r2_base_1024_fold<k>.pt.
+base: scr_r1_base_1536.yaml
+name: scr_r2_base_1536
+recipe: r2
+change: "recipe r2 stage 2"
+baseline: scr_r1_base_1536

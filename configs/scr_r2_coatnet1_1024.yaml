@@ -1,0 +1,8 @@
+# Promoted from the CoAtNet screens (+0.0045 fold 0,
+# +0.0029 fold 2 vs r1): recipe r2's 60-epoch 1024 stage on CoAtNet-rmlp-1. Needs a 48 GB GPU.
+base: scr_r1_coatnet1_1024.yaml
+name: scr_r2_coatnet1_1024
+recipe: r2
+change: "recipe r2 on coatnet1: 60-epoch 1024 stage"
+baseline: scr_r2_base_1024
+epochs: 60

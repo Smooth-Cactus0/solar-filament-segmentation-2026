@@ -1,0 +1,31 @@
+# Screening baseline, recipe r0: exp8a's recipe (ConvNeXt-V2-tiny UNet, 1024 x 26,
+# bf16) plus the radius-border fix. Every Phase-1 screen is this file plus one
+# change; the registry compares each screen with this run on the same fold.
+name: scr_r0_base_1024
+recipe: r0
+change: baseline (exp8a recipe)
+baseline: scr_r0_base_1024
+encoder: tu-convnextv2_tiny.fcmae_ft_in22k_in1k
+pretrained: true
+size: 1024
+seed: 20260924
+epochs: 26
+batch_size: 2
+grad_accum: 2
+lr: 3.0e-4
+lr_min: 1.0e-6
+weight_decay: 1.0e-2
+grad_clip: 1.0
+workers: 12
+amp: true
+amp_dtype: bfloat16
+ema_decay: 0.0
+dice_weight: 0.25
+pos_weight: 3.0
+spine_weight: 0.0
+augment:
+  radius_border_sky: true   # off-disk border pixels stay off-disk (bug fixed 2026-09-25; exp1-exp8 trained without it)
+eval:
+  tta: true
+  thresholds: [0.20, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80]
+  min_areas: [100, 300, 600, 1000]

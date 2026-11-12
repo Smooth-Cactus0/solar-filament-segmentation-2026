@@ -1,0 +1,19 @@
+# joined checkpoints (the parts are tracked; see README, "Weights")
+weights/*.pt
+weights/*.tmp
+
+# data and outputs
+filament-segmentation-2026/
+pipeline_out/
+cache/
+checkpoints/
+results/
+logs/
+data/scorer/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/

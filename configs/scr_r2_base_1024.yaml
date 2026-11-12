@@ -1,0 +1,10 @@
+# Recipe r2 = r1 + a longer 1024 stage. 40 epochs is the only Plan-2 change that held on both
+# folds (+0.0076 fold 0, +0.0052 fold 2 vs 26); at 40 the best Dice still came at epoch 38-39 and
+# training loss was still falling, so r2 goes to 60. Folds 0 and 2 run first and double as the
+# 60-vs-40 check against scr_r1_ep40_1024.
+base: scr_r1_base_1024.yaml
+name: scr_r2_base_1024
+recipe: r2
+change: "recipe r2: r1 + 1024 stage 60 epochs"
+baseline: scr_r1_base_1024
+epochs: 60

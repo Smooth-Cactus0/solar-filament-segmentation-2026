@@ -1,0 +1,41 @@
+# Exp 8, stage 1 -- ConvNeXt-V2-tiny at 1024, the exp1 recipe with a second encoder.
+#
+# Why a second encoder family rather than another schedule: exp7 showed a full
+# 1536 schedule from pretrained weights loses to the 1024 -> 1536 curriculum
+# (-0.008), and EMA is not a lever; what is left in Tier B is ensemble diversity,
+# and ensembling was the second-largest leaderboard gain we ever had (0.31 -> 0.34).
+#
+# ConvNeXt-V2 (GRN layers, FCMAE self-supervised pretraining then in22k/in1k
+# fine-tune) is a different architecture and a different prior from exp2's
+# ConvNeXt-S/ImageNet, and it normalises with LayerNorm only, so batch 2 is safe
+# on the 10 GB card. Probed on the RTX 3080: 5.7 GiB and 0.21 s/step at 1024, batch 2.
+name: exp8a_convnextv2_1024
+encoder: tu-convnextv2_tiny.fcmae_ft_in22k_in1k
+pretrained: true
+
+size: 1024
+seed: 20260924
+
+# exp1 converged by epoch ~24 at 1024; same 26.
+epochs: 26
+# Effective batch 4 as in exp1: batch 2 fits, batch 4 spills into host memory.
+batch_size: 2
+grad_accum: 2
+lr: 3.0e-4
+lr_min: 1.0e-6
+weight_decay: 1.0e-2
+grad_clip: 1.0
+workers: 12
+amp: true
+# bf16: exp7 fold 0 overflowed to NaN under fp16 at this learning rate.
+amp_dtype: bfloat16
+ema_decay: 0.0
+
+dice_weight: 0.25
+pos_weight: 3.0
+spine_weight: 0.0
+
+eval:
+  tta: true
+  thresholds: [0.20, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80]
+  min_areas: [100, 300, 600, 1000]

@@ -1,0 +1,13 @@
+# Stage 2 of the r0 curriculum (= exp8b): warm-started with
+# --init-from checkpoints/<stage-1 name>_fold<k>.pt. Used for screen calibration.
+base: scr_r0_base_1024.yaml
+name: scr_r0_base_1536
+change: baseline stage 2 (exp8b recipe)
+baseline: scr_r0_base_1536
+pretrained: false
+size: 1536
+epochs: 12
+batch_size: 1
+grad_accum: 2
+lr: 5.0e-5
+pos_weight: 1.0

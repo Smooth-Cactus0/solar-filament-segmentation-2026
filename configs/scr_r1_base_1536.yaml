@@ -1,0 +1,13 @@
+# Stage 2 of the r1 curriculum: warm-started with
+# --init-from checkpoints/scr_r1_base_1024_fold<k>.pt.
+base: scr_r0_base_1536.yaml
+name: scr_r1_base_1536
+recipe: r1
+change: "recipe r1 stage 2"
+baseline: scr_r0_base_1536
+augment:
+  scale: [0.8, 1.25]
+  cutout_p: 0.5
+  cutout_n: 4
+  cutout_size: [32, 96]
+  blur_p: 0.0

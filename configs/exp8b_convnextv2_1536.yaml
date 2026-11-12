@@ -1,0 +1,33 @@
+# Exp 8, stage 2 -- fine-tune the stage-1 ConvNeXt-V2-tiny at 1536 (exp2 recipe).
+#
+# Weights arrive via --init-from checkpoints/exp8a_convnextv2_1024_fold<k>.pt;
+# the launcher chains the two stages per fold. Same short
+# low-rate schedule as exp2, which converged within an epoch or two of the warm start.
+# Probed on the RTX 3080: 6.4 GiB and 0.24 s/step at 1536, batch 1.
+name: exp8b_convnextv2_1536
+encoder: tu-convnextv2_tiny.fcmae_ft_in22k_in1k
+pretrained: false          # weights come from --init-from, not the hub
+
+size: 1536
+seed: 20260924
+
+epochs: 12
+batch_size: 1
+grad_accum: 2
+lr: 5.0e-5
+lr_min: 1.0e-6
+weight_decay: 1.0e-2
+grad_clip: 1.0
+workers: 12
+amp: true
+amp_dtype: bfloat16
+ema_decay: 0.0
+
+dice_weight: 0.25
+pos_weight: 1.0
+spine_weight: 0.0
+
+eval:
+  tta: true
+  thresholds: [0.20, 0.30, 0.35, 0.40, 0.50, 0.60, 0.70, 0.80]
+  min_areas: [100, 300, 600, 1000]
